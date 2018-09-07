@@ -58,7 +58,7 @@ Group objects will be created only once and routes from them will be added to ro
 
 #### Non-collection handlers
 
-You need to use our provided micro and set our router in di, nothing more to do currently, in future we might add [super_closure](https://github.com/jeremeamia/super_closure) as way to cache closuers but it will require tests if it's actually worth it. Currently with our micro and router the boost is less significant than in other cases since direct handler storing which we can't cache.
+You need to use our provided micro and set our router in di, nothing more to do currently, in future we might add [super_closure](https://github.com/jeremeamia/super_closure) as way to cache closures but it will require tests if it's actually worth it. Currently with our micro and router the boost is less significant than in other cases since direct handler storing which we can't cache.
 
 #### Collection handlers
 
@@ -66,18 +66,18 @@ Soon
 
 ## Serialization of 'Closure' is not allowed
 
-If you have this error it means that you use for example `$router->add()->beforeMatch()`. Php can't serialize closuers so you need to handle it differently. I suggest you set names for your routes and use added event `router:afterBuild` to which you can attach your function where you will get routes by names for which you want set `beforeMatch`. `router:afterBuild` is fired after router is build from cache or when there is no cache, then it's build on first handle. Build from cache happens as soon router is accessed as a service.
+If you have this error it means that you use for example `$router->add()->beforeMatch()`. Php can't serialize closures so you need to handle it differently. I suggest you set names for your routes and use added event `router:afterBuild` to which you can attach your function where you will get routes by names for which you want set `beforeMatch`. `router:afterBuild` is fired after router is build from cache or when there is no cache, then it's build on first handle. Build from cache happens as soon router is accessed as a service.
 
-Other solution is to implemenet Phalcon Frontend cache with [super_closure](https://github.com/jeremeamia/super_closure) but i don't recommend it.
+Other solution is to implement Phalcon Frontend cache with [super_closure](https://github.com/jeremeamia/super_closure) but i don't recommend it.
 
 ## TODO
 
-- [x] Provide router with grouping regexpes
+- [x] Provide router with regexps grouping
 - [x] Provide router with ability to cache routes
 - [x] Provide micro which will work with new router
-- [ ] Group regexpes by common prefix for even faster matching and shorter regexpes
-- [ ] Create array of regexpes in case we might get too long regexpes
+- [ ] Group regexps by common prefix for even faster matching and shorter regexps
+- [ ] Create array of regexps in case we might get too long regexps
 - [ ] Add readme on collection handlers
 - [ ] Write tests
-- [ ] Handle routes with diffrent regexp which can be matched by same url but have diffrent method/hostname
+- [ ] Handle routes with different regexp which can be matched by same url but have different method/hostname
 - [ ] Change namespace and class names if needed to better
