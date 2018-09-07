@@ -68,6 +68,8 @@ Soon
 
 If you have this error it means that you use for example `$router->add()->beforeMatch()`. Php can't serialize closuers so you need to handle it differently. I suggest you set names for your routes and use added event `router:afterBuild` to which you can attach your function where you will get routes by names for which you want set `beforeMatch`. `router:afterBuild` is fired after router is build from cache or when there is no cache, then it's build on first handle. Build from cache happens as soon router is accessed as a service.
 
+Other solution is to implemenet Phalcon Frontend cache with [super_closure](https://github.com/jeremeamia/super_closure) but i don't recommend it.
+
 ## TODO
 
 - [x] Provide router with grouping regexpes
