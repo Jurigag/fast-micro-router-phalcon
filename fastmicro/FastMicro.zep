@@ -12,17 +12,19 @@ class FastMicro extends Micro
 
     public function map(routePattern, handler)
     {
-        var router, route;
+        var router, route, id;
         let router = this->getRouter();
 
         if (!router->isBuildFromCache()) {
             let route = router->add(routePattern);
-            let this->handlersIds[routePattern] = route->getRouteId();
+            let id = route->getRouteId();
+            let this->handlersIds[routePattern] = id;
         } else {
-            let route = router->getRouteById(this->handlersIds[routePattern]);
+            let id = this->handlersIds[routePattern];
+            let route = router->getRouteById(id);
         }
 
-        let this->_handlers[this->handlersIds[routePattern]] = handler;
+        let this->_handlers[id] = handler;
 
         return route;
     }

@@ -152,18 +152,18 @@ class FastRouter extends Router
 
         let matches = null;
 
-        if (isset(this->_routes[handledUri])) {
-            let routes = [this->_routes[handledUri]];
-        } elseif (preg_match(this->globalPattern, handledUri, matches)) {
-            let routeId = matches["MARK"];
-            if (strpos(",", routeId) == false) {
-                let routes = [this->_routes[routeId]];
+        if !fetch routes, this->_routes[handledUri] {
+            if (preg_match(this->globalPattern, handledUri, matches)) {
+               let routeId = matches["MARK"];
+               if (memstr(routeId,",")) {
+                    let routes = [this->_routes[routeId]];
+               } else {
+                    let routeId = explode(',', routeId);
+                    let routes = this->getRoutesByIds(routeId);
+               }
             } else {
-                let routeId = explode(',', routeId);
-                let routes = this->getRoutesByIds(routeId);
+                let routes = [];
             }
-        } else {
-            let routes = [];
         }
 
         let dependencyInjector = this->_dependencyInjector,
@@ -200,10 +200,10 @@ class FastRouter extends Router
                     continue;
                 }
 
-                if (strpos('(', hostname) !== false) {
-                    if (strpos('#', hostname) === false) {
+                if (memstr(hostname, ")")) {
+                    if (!memstr(hostname,"#")) {
                         let regexHostname = "#^".hostname;
-                        if (strpos(':', hostname) === false) {
+                        if (!memstr(hostname, ":")) {
                             let regexHostname .= "(:[[:digit:]]+)?";
                         }
                         let regexHostname .= "$#i";
