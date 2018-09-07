@@ -438,14 +438,18 @@ class FastRouter extends Router
         return this;
     }
 
-    public function addCallbackRoute(callable callback)
+    public function addCallbackRoutes(callable callback)
     {
         let this->callbackRoutes[] = callback;
+
+        return this;
     }
 
     public function mountGroupClassName(className)
     {
         let this->groupClassNames[] = className;
+
+        return this;
     }
 
     protected function build()
