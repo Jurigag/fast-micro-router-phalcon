@@ -554,7 +554,7 @@ class FastRouter extends Router
             let eventsManagerIsObject = typeof eventsManager == "object";
 
             if (eventsManagerIsObject) {
-                eventsManager->fire("router:beforeCacheBuild", this);
+                eventsManager->fire("router:beforeBuild", this);
             }
 
             /** @var Di $dependencyInjector */
@@ -572,7 +572,7 @@ class FastRouter extends Router
                 let this->buildFromCache = true;
                 let this->build = true;
                 if (eventsManagerIsObject) {
-                    eventsManager->fire("router:afterCacheBuild", this);
+                    eventsManager->fire("router:afterBuild", this);
                 }
             }
         }

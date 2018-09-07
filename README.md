@@ -6,6 +6,24 @@ Compile it with zephir and change your router/micro to provided by our extension
 
 Best results with cache enabled and `Phalcon\Cache\Frontend\Igbinary` with `Phalcon\Cache\Backend\File` for `cacheSimpleService` and `Phalcon\Cache\Frontend\Data` with `Phalcon\Cache\Backend\File` for `cacheObjectService`
 
+## Register router in di
+
+First you need to register router in di:
+
+```php
+$di->set(
+    'router',
+    function () {
+        $router = new \Fastmicro\FastRouter(false);
+        $router->useCache(true, 'router', 'cache', 'igbinaryCache');
+        
+        return $router;
+    }
+);
+```
+
+Method `Fastmicro\FastRouter::useCache` accepts 4 arguments, boolean as indiciator if to use cache, key under which store caching data(though we still prefix it) and service names for `Phalcon\Mvc\Router\Route` objects and arrays/strings.
+
 ## Usage with Phalcon\Mvc\Application
 
 To use this efficient you need to update your code, i.e how you add routes:
@@ -46,6 +64,10 @@ You need to use our provided micro and set our router in di, nothing more to do 
 
 Soon
 
+## Serialization of 'Closure' is not allowed
+
+If you have this error it means that you use for example `$router->add()->beforeMatch()`. Php can't serialize closuers so you need to handle it differently. I suggest you set names for your routes and use added event `router:afterBuild` to which you can attach your function where you will get routes by names for which you want set `beforeMatch`. `router:afterBuild` is fired after router is build from cache or when there is no cache, then it's build on first handle. Build from cache happens as soon router is accessed as a service.
+
 ## TODO
 
 - [x] Provide router with grouping regexpes
@@ -56,3 +78,4 @@ Soon
 - [ ] Add readme on collection handlers
 - [ ] Write tests
 - [ ] Handle routes with diffrent regexp which can be matched by same url but have diffrent method/hostname
+- [ ] Change namespace and class names if needed to better
